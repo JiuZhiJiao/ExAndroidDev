@@ -1,11 +1,11 @@
 ## ExAndroidDev
 **Exercises for Android Development**
 
-*This repository includes the exercises of the Android Development.*
+*This repository includes some exercises of the Android Development.*
 
 Exercises Checklist:
-- [ ] Hello World
-- [ ] Buttons and onClickListener
+- [x] Hello World
+- [x] Buttons and onClickListener
 - [ ] Spinner
 - [ ] Recycler View
 - [ ] Multiple Activities and Intent
@@ -18,3 +18,4 @@ Exercises Checklist:
 - [ ] Google Maps
 - [ ] Chart
 - [ ] Image Downloader
+- [ ] Material Design
