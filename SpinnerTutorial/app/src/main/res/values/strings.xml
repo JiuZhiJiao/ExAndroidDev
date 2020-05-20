@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SpinnerTutorial</string>
+    <string-array name="course_array">
+        <item>MIT</item>
+        <item>MNS</item>
+        <item>MDS</item>
+        <item>MBIS</item>
+        <item>BIT(Hons)</item>
+    </string-array>
+</resources>

@@ -6,7 +6,7 @@
 Exercises Checklist:
 - [x] Hello World
 - [x] Buttons and onClickListener
-- [ ] Spinner
+- [x] Spinner
 - [ ] Recycler View
 - [ ] Multiple Activities and Intent
 - [ ] Navigation Drawer and Fragments
