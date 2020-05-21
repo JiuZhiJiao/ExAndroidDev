@@ -201,7 +201,7 @@ Spinner
 ```
 
 Recycler View
-![Recycler View Folder](https://jiuzhijiao.d.pr/5P9pqp)
+![Recycler View Folder](./screenshots/recyclerView.png)
 ```java
 	/* build.gradle(Module: app)
 	dependencies {
