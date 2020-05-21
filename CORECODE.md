@@ -454,7 +454,183 @@ Recycler View
 ```
 
 Multiple Activities and Intent
+
+![Multiple Activities and Intent Folder](./screenshots/testIntent.png)
 ```java
+	/* Add new class named Student */
+	public class Student implements Parcelable {
+
+		private int id = 0;
+		private String name = "";
+
+		public Student(Parcel in) {
+			this.id = in.readInt();
+			this.name = in.readString();
+		}
+
+		public Student(int id, String name) {
+			this.id = id;
+			this.name = name;
+		}
+
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(id);
+			parcel.writeString(name);
+		}
+
+		public int describeContents() {
+			return 0;
+		}
+
+		public static final Creator<Student> CREATOR = new Creator<Student>() {
+			@Override
+			public Student createFromParcel(Parcel source) {
+				return new Student(source);
+			}
+
+			@Override
+			public Student[] newArray(int size) {
+				return new Student[size];
+			}
+		};
+		
+		// getter and setter
+	}
+
+	/* activity_main.xml */
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/startButton"
+			android:text="Start Second Activity" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView"
+			android:text="We are in the first activity" />
+
+	</LinearLayout>
+	
+	/* MainActivity.jave */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		Button button = findViewById(R.id.startButton);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+				Bundle bundle = new Bundle();
+				/*
+				bundle.putString("name","John");
+				bundle.putString("surname","Jiao");
+				bundle.putInt("age",25);
+				 */
+				Student student = new Student(1,"John Jiao");
+				bundle.putParcelable("student",student);
+				intent.putExtras(bundle);
+				startActivityForResult(intent,1);
+			}
+		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		if (requestCode == 1) {
+			if (resultCode == RESULT_OK) {
+				String message = data.getStringExtra("message");
+				TextView textView = findViewById(R.id.textView);
+				textView.setText(message);
+			}
+		}
+	}
+	
+	/* Add new Empty Activity named SecondActivity */
+	/* activity_second.xml */
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/button"
+			android:text="Start First Activity" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView"
+			android:text="We are in the second activity" />
+
+		<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/editText" />
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/button2"
+			android:text="Show Message" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/messageText" />
+
+	</LinearLayout>
+	
+	/* SecondActivity.jave */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_second);
+
+		Button button = findViewById(R.id.button);
+		Button messageButton = findViewById(R.id.button2);
+		final TextView textView = findViewById(R.id.messageText);
+
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent returnIntent = getIntent();
+				EditText editText = findViewById(R.id.editText);
+				String message = editText.getText().toString();
+				returnIntent.putExtra("message",message);
+
+				setResult(RESULT_OK,returnIntent);
+				finish();
+			}
+		});
+
+		messageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = getIntent().getExtras();
+				/*
+				String name = bundle.getString("name");
+				String surname = bundle.getString("surname");
+				Integer age = bundle.getInt("age");
+				textView.setText(name+" " + surname + " " + age);
+				 */
+				Student student = bundle.getParcelable("student");
+				String name = student.getName();
+				int id = student.getId();
+				textView.setText(id + " " + name);
+			}
+		});
+	}
+
 
 ```
 
