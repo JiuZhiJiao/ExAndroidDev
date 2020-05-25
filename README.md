@@ -12,9 +12,9 @@
 - [x] Recycler View
 - [x] Multiple Activities and Intent
 - [x] Navigation Drawer and Fragments
-- [ ] List View
-- [ ] Room Persistent Library
-- [ ] OKhttp
+- [x] List View
+- [x] Room Persistent Library
+- [x] OKhttp
 - [ ] HttpURLConnection
 - [ ] Google Custom Search (with Google API)
 - [ ] Google Maps

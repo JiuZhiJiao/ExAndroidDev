@@ -775,7 +775,135 @@ Navigation Drawer and Fragments
 ```
 
 List View
+
+![List View and Toast](./screenshots/listView.png)
+
 ```java
+	/* Edit activity_main.xml to LinearLayout firstly, then drag and drop the List View */
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/activity_main"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+
+		<ListView
+			android:id="@+id/listView"
+			android:layout_width="match_parent"
+			android:layout_height="0px"
+			android:layout_weight="5" />
+
+		<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/addEditText"
+			android:ems="10"
+			android:inputType="textPersonName"
+			android:text="" />
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/addButton"
+			android:text="ADD UNIT" />
+
+
+	</LinearLayout>
+	
+	/* add the list_view.xml Layout file */
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal">
+
+
+		<TextView
+			android:id="@+id/UnitCode"
+			android:layout_width="0px"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.5" />
+
+		<TextView
+			android:id="@+id/UnitName"
+			android:layout_width="0px"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />
+
+		<TextView
+			android:id="@+id/Semester"
+			android:layout_width="0px"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.5" />
+	</LinearLayout>
+
+	/* Add new methods in MainActivity.java class */
+	List<HashMap<String,String>> unitListArray;
+	SimpleAdapter myListAdapter;
+	ListView unitList;
+	Button addButton;
+	EditText addEditText;
+
+	HashMap<String,String> map = new HashMap<>();
+	String[] colHEAD = new String[] {"CODE","UNITS","SEMESTER"};
+	int[] dataCell = new int[] {R.id.UnitCode,R.id.UnitName,R.id.Semester};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		unitList = this.findViewById(R.id.listView);
+		unitListArray = new ArrayList<HashMap<String, String>>();
+
+		map.put("CODE", "FIT5046");
+		map.put("UNITS", "Mobile and distributed Computing");
+		map.put("SEMESTER", "Sem1 2020");
+		unitListArray.add(map);
+
+		map.put("CODE", "FIT5145");
+		map.put("UNITS", "Introduction to Data Science");
+		map.put("SEMESTER", "Sem1 2020");
+		unitListArray.add(map);
+
+		myListAdapter = new SimpleAdapter(this,unitListArray,R.layout.list_view,colHEAD,dataCell);
+		unitList.setAdapter(myListAdapter);
+
+		addButton = this.findViewById(R.id.addButton);
+		addEditText = this.findViewById(R.id.addEditText);
+
+		initAddUnitListeners();
+	}
+
+	protected void initAddUnitListeners() {
+		this.addButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String newUnit = addEditText.getText().toString().trim();
+				if (!newUnit.isEmpty()) {
+					String[] unitsArray = newUnit.split(",");
+					HashMap<String,String> map = new HashMap<>();
+					map.put("CODE", unitsArray[0]);
+					map.put("UNITS",unitsArray[1]);
+					map.put("SEMESTER",unitsArray[2]);
+					addMap(map);
+				} else {
+					sendToast("Please Enter Text Firstly!");
+				}
+			}
+		});
+	}
+
+	protected void addMap(HashMap map) {
+		unitListArray.add(map);
+		myListAdapter = new SimpleAdapter(this,unitListArray,R.layout.list_view,colHEAD,dataCell);
+		unitList.setAdapter(myListAdapter);
+	}
+
+	protected void sendToast(String msg) {
+		Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
+	}
+	
 
 ```
 
