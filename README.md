@@ -11,7 +11,7 @@
 - [x] Spinner
 - [x] Recycler View
 - [x] Multiple Activities and Intent
-- [ ] Navigation Drawer and Fragments
+- [x] Navigation Drawer and Fragments
 - [ ] List View
 - [ ] Room Persistent Library
 - [ ] OKhttp
